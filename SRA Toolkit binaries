@@ -1,0 +1,39 @@
+# Update package lists
+sudo apt update
+
+# Install the toolkit
+sudo apt install -y sra-toolkit
+
+which prefetch && which fasterq-dump
+
+#Download the Miniconda installer
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+#Run the installer
+bash Miniconda3-latest-Linux-x86_64.sh
+
+#Create & activate your SRA env
+conda create -n sra_env -c bioconda sra-tools -y
+conda activate sra_env
+
+#Tab once to move the focus down to the <Cancel> button
+#Enter to dismiss the dialog
+
+#Fix the broken install and remove
+sudo apt --fix-broken install    # finish configuring any half-installed packages
+sudo apt remove --purge med-config menu blends-common
+sudo apt autoremove              # get rid of any now-unused bits
+
+#Verify that SRA Toolkit is working:
+which prefetch fasterq-dump
+prefetch --version
+fasterq-dump --version
+
+#Remove the Debian-Med menu configurator (med-config) and its helpers
+sudo apt remove --purge med-config menu blends-common
+
+#Clean up any now-unused packages
+sudo apt autoremove -y
+
+# Download an SRA run
+prefetch SRR123456
